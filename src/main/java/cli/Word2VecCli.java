@@ -1,8 +1,8 @@
 package cli;
 
-import com.yeezhao.commons.util.CliRunner;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
+import utils.CliRunner;
 
 /**
  * Created by Yoosan on 15/9/19.
@@ -13,6 +13,7 @@ public class Word2VecCli implements CliRunner {
     public boolean validateOptions(CommandLine commandLine) {
         return true;
     }
+
     public Options initOptions() {
         return new Options();
     }
