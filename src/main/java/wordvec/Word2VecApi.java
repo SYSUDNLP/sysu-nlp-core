@@ -3,8 +3,8 @@ package wordvec;
 import utils.VectorUtil;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Yoosan on 15/9/19.
@@ -24,8 +24,14 @@ public class Word2VecApi {
 
     public static void main(String[] args) {
         Word2VecApi api = Word2VecApi.getInstance("/Users/node/Downloads/trunk/vectors.bin");
-        float distance = api.word2wordDistance("hello", "world");
-        System.out.println("The distance between 'hello' and 'world' is :" + distance);
+        WordToVec toVec = api.getWordToVec();
+        Set<WordToVec.WordEntry> entries = toVec.distance("break");
+        for (WordToVec.WordEntry e : entries) {
+            System.out.println(e.toString());
+        }
+
+        float distance = api.word2wordDistance("break", "break");
+        System.out.println("The distance between 'hello' and 'helloworld' is :" + distance);
     }
 
     private Word2VecApi(String modelPath) {

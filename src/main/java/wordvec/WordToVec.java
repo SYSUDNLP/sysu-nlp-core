@@ -7,6 +7,10 @@ import java.util.*;
  * Created by Yoosan on 15/9/19.
  * All rights reserved @SYSUNLP GROUP
  */
+
+/**
+ * WordToVec is the class for loading the trained word2vec model 'vectors.bin'
+ */
 public class WordToVec {
 
     private static final int MAX_SIZE = 50;
@@ -49,6 +53,12 @@ public class WordToVec {
         return buffer.toString();
     }
 
+    /**
+     *
+     * @param path the path of vectors.bin
+     * @return if loading successful then true, else false
+     * @throws IOException
+     */
     public boolean loadModel(String path) throws IOException {
         DataInputStream dis = null;
         BufferedInputStream bis = null;
@@ -58,7 +68,6 @@ public class WordToVec {
         dis = new DataInputStream(bis);
         words = Integer.parseInt(readString(dis));
         size = Integer.parseInt(readString(dis));
-
         String word;
         float[] vectors;
         for (int i = 0; i < words; i++) {
@@ -84,6 +93,11 @@ public class WordToVec {
         return true;
     }
 
+    /**
+     * Get the top-N nearest words of the given word
+     * @param word
+     * @return Sets of wordentry
+     */
     public Set<WordEntry> distance(String word) {
         float[] wordVec = getWordVector(word);
         if (wordVec == null) return null;

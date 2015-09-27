@@ -48,7 +48,7 @@ public class VectorUtil {
     public static float cosDistance(float[] v1, float[] v2) {
         assert v1.length == v2.length;
         float dotProduct = dotProduct(v1, v2);
-        float sumNorm = vectorNorm(v1) + vectorNorm(v2);
+        float sumNorm = vectorNorm(v1) * vectorNorm(v2);
         return dotProduct / sumNorm;
     }
 

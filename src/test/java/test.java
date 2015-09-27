@@ -7,6 +7,5 @@ public class test {
 
         String s = "hello world";
         System.out.println(s.substring(0, s.indexOf(" ")));
-
     }
 }
