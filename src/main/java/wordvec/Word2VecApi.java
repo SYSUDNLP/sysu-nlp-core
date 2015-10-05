@@ -25,7 +25,7 @@ public class Word2VecApi {
     public static void main(String[] args) {
         Word2VecApi api = Word2VecApi.getInstance("/Users/node/Downloads/trunk/vectors.bin");
         WordToVec toVec = api.getWordToVec();
-        Set<WordToVec.WordEntry> entries = toVec.distance("break");
+        Set<WordToVec.WordEntry> entries = toVec.distance("hello");
         for (WordToVec.WordEntry e : entries) {
             System.out.println(e.toString());
         }

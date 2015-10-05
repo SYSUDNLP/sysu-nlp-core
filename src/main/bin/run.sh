@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 print_usage ()
 {
   echo "Usage: sh run.sh COMMAND"
@@ -14,11 +14,10 @@ fi
 COMMAND=$1
 shift
 
-if [ "$JAVA_HOME" = "" ]; then
+if [ "${JAVA_HOME}" = "" ]; then
   echo "Error: JAVA_HOME is not set."
   exit 1
 fi
-
 
 JAVA=${JAVA_HOME}/bin/java
 HEAP_OPTS="-Xmx1500m"
