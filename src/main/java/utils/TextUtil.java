@@ -51,8 +51,14 @@ public class TextUtil {
             e.printStackTrace();
             return false;
         }
-        long mins = (System.currentTimeMillis() - startTime) / (1000 * 60l);
-        System.out.println("[INFO] Cost minutes is : " + mins + "mins");
+        long mileSeconds = (System.currentTimeMillis() - startTime);
+        if (mileSeconds < 1000) {
+            System.out.println("[INFO] Cost time : " + mileSeconds + " ms");
+        } else if (mileSeconds < 60000){
+            System.out.println("[INFO] Cost time : " + mileSeconds / 1000.0 + " Seconds");
+        } else {
+            System.out.println("[INFO] Cost time : " + mileSeconds / ( 60 * 1000.0 ) + " Seconds");
+        }
         return true;
     }
 
@@ -85,8 +91,14 @@ public class TextUtil {
             e.printStackTrace();
             return false;
         }
-        long mins = (System.currentTimeMillis() - startTime) / (1000 * 60l);
-        System.out.println("[INFO] Cost minutes is : " + mins + "mins");
+        long mileSeconds = (System.currentTimeMillis() - startTime);
+        if (mileSeconds < 1000) {
+            System.out.println("[INFO] Cost time : " + mileSeconds + " ms");
+        } else if (mileSeconds < 60000){
+            System.out.println("[INFO] Cost time : " + mileSeconds / 1000.0 + " Seconds");
+        } else {
+            System.out.println("[INFO] Cost time : " + mileSeconds / ( 60 * 1000.0 ) + " Seconds");
+        }
         return true;
     }
 }

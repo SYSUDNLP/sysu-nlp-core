@@ -37,6 +37,8 @@ if [ "$COMMAND" = "test" ]; then
     CLASS=cli.TestCli
 elif [ "$COMMAND" = "readjson" ]; then
     CLASS=cli.ReadJsonCli
+elif [ "$COMMAND" = "tokenize" ]; then
+    CLASS=cli.TokenizerCli
 else
     CLASS=${COMMAND}
 fi

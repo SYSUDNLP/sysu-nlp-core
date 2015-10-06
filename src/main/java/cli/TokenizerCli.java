@@ -13,6 +13,9 @@ import utils.TextUtil;
  */
 public class TokenizerCli implements CliRunner {
 
+    public static void main(String[] args) {
+        CMDUtil.initRunner(args, "Tokenizer", new TokenizerCli());
+    }
 
     @Override
     public Options initOptions() {

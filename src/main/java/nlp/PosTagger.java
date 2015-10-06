@@ -99,9 +99,9 @@ public class PosTagger {
         List<CoreMap> maps = document.get(CoreAnnotations.SentencesAnnotation.class);
         for (CoreMap sentence : maps) {
             Tree tree = sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
-            Tree tree1 = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
+//            Tree tree1 = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
 
-            System.out.println(tree1);
+//            System.out.println(tree1);
             System.out.println(tree);
         }
     }

@@ -1,0 +1,77 @@
+#!/usr/bin/ruby
+
+$cur_path = Dir.getwd
+HEAP_OPTS = "-Xmx1500m"
+
+def puts_usage
+  puts " ===================== Usage ======================= \n\n"
+  puts " * Developed by SYSU NLP, Y.Zhou "
+  puts " === You can run scripts as the format: \n\n"
+  puts " \t ./run [args] \n\n"
+  puts " The arguments with examples as follows: \n\n"
+  puts " \t help                                            ::prints all usage"
+  puts " \t echo_path [environment var]                     ::prints any environment variable"
+  puts " \t tokenize -i [input_file] -o [output_file]       ::input txt file then make word tokenization"
+  puts " \t read_json -i [input_file] -o [output_file]      ::read Amazon reviews file and write reviews to output file"
+  puts " \n =END="
+  system exit 1
+end
+
+unless ENV.include?('JAVA_HOME')
+  puts "[Error] JAVA_HOME has not been set"
+  puts "[Error] Please set JAVA_HOME, in the file .profile or .bashrc"
+  system exit 1
+end
+
+$java_home = ENV['JAVA_HOME']
+$java = $java_home + '/bin/java'
+
+def gen_jars
+  jars = Dir.glob(['*.jar']).join(':')
+  lib_jars = ''
+  Dir.chdir('lib')
+  lib = Dir.glob(['*.jar'])
+  lib.each do |s|
+    tmp = 'lib/' + s + ':'
+    lib_jars += tmp
+  end
+  Dir.chdir($cur_path)
+  $classpath = $java_home + '/lib/tools.jar:'
+  $classpath += jars + ':' + lib_jars
+  return $classpath
+end
+
+def java_exec
+  return $java + ' -Djava.awt.headless=true ' + HEAP_OPTS + ' -classpath ' + gen_jars
+end
+
+def echo_path
+  system 'echo $PATH'
+end
+
+def tokenize
+  if ARGV.size < 4
+    puts '[Error] NOT enough params, you should use ./run tokenize -i [input] -o [output]'
+  end
+  system (java_exec + ' cli.TokenizerCli ' + ARGV.join(' '))
+end
+
+def read_json
+  if ARGV.size < 4
+    puts '[Error] NOT enough params, you should use ./run read_json -i [input] -o [output]'
+  end
+  system (java_exec + ' cli.ReadJsonCli ' + ARGV.join(' '))
+end
+
+if ARGV.size == 0
+  puts_usage
+end
+
+command = ARGV.shift
+case command
+  when 'help'      then puts_usage
+  when 'tokenize'  then tokenize
+  when 'echo_path' then echo_path
+  when 'read_json' then read_json
+  else puts '*[Invalid command], you can ./run help for help'
+end
