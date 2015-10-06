@@ -11,7 +11,7 @@ This project is a open-source project created by the Y. Zhou. You can use this p
 
 > Ruby
 
-> Maven(A package manager tool of java)
+> Maven (package management tool of java)
 
 > Jars in the file **pom.xml**
 
@@ -29,4 +29,5 @@ Then, download the jars in pom.xml and compile. The maven repositories path is ~
   
 Finally, 
 + <code>cd target</code>
-+ <code>sh run.sh </code>
++ <code>chmod 777 run</code>
++ <code>./run help</code>
