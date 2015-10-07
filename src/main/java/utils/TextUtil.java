@@ -3,7 +3,7 @@ package utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import entities.AmazonReview;
-import nlp.PosTagger;
+import nlp.PreProcess;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 
@@ -40,7 +40,7 @@ public class TextUtil {
                 line = iterator.nextLine();
                 review = gson.fromJson(line, type).toString();
                 review = review.trim();
-                writer.write(PosTagger.tokenizer(review) + "\n");
+                writer.write(PreProcess.tokenizer(review) + "\n");
                 i++;
                 if (i != 0 && i % 1000 == 0) {
                     System.out.println("[INFO] Read " + i + " lines");
@@ -79,7 +79,7 @@ public class TextUtil {
             FileWriter writer = new FileWriter(outFile);
             while (iterator.hasNext()) {
                 line = iterator.nextLine();
-                review = PosTagger.tokenizer(line.toLowerCase());
+                review = PreProcess.tokenizer(line.toLowerCase());
                 writer.write(review + "\n");
                 i++;
                 if (i != 0 && i % 1000 == 0) {
