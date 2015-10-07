@@ -22,7 +22,7 @@ Firstly, you should check out this project to your local environment(or EC2..), 
 + <code>git clone https://github.com/SYSUNLP/sysu-nlp-core.git /your/local/path</code>
 + <code>git pull</code>
   
-Then, download the jars in pom.xml and compile. The maven repositories path is ~/.m2/repository/.
+Then, download the jars in pom.xml and compile. The maven repositories path is **<code>~/.m2/repository/</code>**.
 
 + <code>cd sysu-nlp-core</code>
 + <code>mvn package</code>
