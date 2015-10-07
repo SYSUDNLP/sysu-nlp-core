@@ -42,7 +42,7 @@ def gen_jars
 end
 
 def java_exec
-  return $java + ' -Djava.awt.headless=true ' + HEAP_OPTS + ' -classpath ' + gen_jars
+  "#{$java} -Djava.awt.headless=true #{HEAP_OPTS} -classpath #{gen_jars}"
 end
 
 def echo_path
@@ -53,14 +53,14 @@ def tokenize
   if ARGV.size < 4
     puts '[Error] NOT enough params, you should use ./run tokenize -i [input] -o [output]'
   end
-  system (java_exec + ' cli.TokenizerCli ' + ARGV.join(' '))
+  system ("#{java_exec} cli.TokenizerCli #{ARGV.join(' ')}")
 end
 
 def read_json
   if ARGV.size < 4
     puts '[Error] NOT enough params, you should use ./run read_json -i [input] -o [output]'
   end
-  system (java_exec + ' cli.ReadJsonCli ' + ARGV.join(' '))
+  system ("#{java_exec} cli.ReadJsonCli #{ARGV.join(' ')}")
 end
 
 if ARGV.size == 0
