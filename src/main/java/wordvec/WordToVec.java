@@ -68,6 +68,8 @@ public class WordToVec {
         dis = new DataInputStream(bis);
         words = Integer.parseInt(readString(dis));
         size = Integer.parseInt(readString(dis));
+        System.out.println("[Words] -- " + words);
+        System.out.println("[Embedding dimension] -- " + size);
         String word;
         float[] vectors;
         for (int i = 0; i < words; i++) {

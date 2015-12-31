@@ -8,6 +8,7 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -17,7 +18,7 @@ import java.util.Properties;
  */
 public class PreProcess {
 
-    private static StanfordCoreNLP pipline = null;
+    private static StanfordCoreNLP pipeline = null;
 
     public static void main(String[] args) {
         Properties prop = new Properties();
@@ -50,32 +51,56 @@ public class PreProcess {
 //        System.out.println(graph);
     }
 
-    public static StanfordCoreNLP getPipline(String pro) {
+    public static StanfordCoreNLP getPipeline(String pro) {
         Properties prop = new Properties();
         prop.setProperty("annotators", pro);
-        if (pipline == null) {
+        if (pipeline == null) {
             synchronized (StanfordCoreNLP.class) {
-                pipline = new StanfordCoreNLP(prop);
+                pipeline = new StanfordCoreNLP(prop);
             }
         }
-        return pipline;
+        return pipeline;
     }
 
-    public static StanfordCoreNLP getAllPipline() {
+    public static StanfordCoreNLP getPipeline(String[] pros) {
         Properties prop = new Properties();
-        prop.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, sentiment");
-        if (pipline == null) {
+        for (String s : pros) {
+            prop.setProperty("annotators", s);
+        }
+        if (pipeline == null) {
             synchronized (StanfordCoreNLP.class) {
-                pipline = new StanfordCoreNLP(prop);
+                pipeline = new StanfordCoreNLP(prop);
             }
         }
-        return pipline;
+        return pipeline;
+    }
+
+    public static StanfordCoreNLP getBasicPipeline() {
+        Properties prop = new Properties();
+        prop.setProperty("annotators", "tokenize, ssplit, pos");
+        if (pipeline == null) {
+            synchronized (StanfordCoreNLP.class) {
+                pipeline = new StanfordCoreNLP(prop);
+            }
+        }
+        return pipeline;
+    }
+
+    public static StanfordCoreNLP getAllPipeline() {
+        Properties prop = new Properties();
+        prop.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, sentiment");
+        if (pipeline == null) {
+            synchronized (StanfordCoreNLP.class) {
+                pipeline = new StanfordCoreNLP(prop);
+            }
+        }
+        return pipeline;
     }
 
     public static String tokenizer(String text) {
         StringBuilder buffer = new StringBuilder();
-        StanfordCoreNLP pipline = PreProcess.getPipline("tokenize, ssplit");
-        Annotation document = pipline.process(text);
+        StanfordCoreNLP pipeline = PreProcess.getPipeline("tokenize, ssplit");
+        Annotation document = pipeline.process(text);
         List<CoreMap> maps = document.get(CoreAnnotations.SentencesAnnotation.class);
         for (CoreMap sentence : maps) {
             for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
@@ -87,10 +112,47 @@ public class PreProcess {
         return buffer.toString();
     }
 
+    public static List<String> tokenize(String text) {
+        List<String> result = new LinkedList<String>();
+        StanfordCoreNLP pipeline = PreProcess.getPipeline("tokenize, ssplit");
+        Annotation document = pipeline.process(text);
+        List<CoreMap> maps = document.get(CoreAnnotations.SentencesAnnotation.class);
+        for (CoreMap sentence : maps) {
+            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                String word = token.get(CoreAnnotations.TextAnnotation.class).toLowerCase().trim();
+                if (word.length() == 1 && (word.charAt(0) > 'z') || word.charAt(0) < 'A') continue;
+                else result.add(word);
+            }
+        }
+        return result;
+    }
+
+    public static String delta_tokenizer(String text) {
+        StringBuilder buffer = new StringBuilder();
+        StanfordCoreNLP pipeline = PreProcess.getPipeline("tokenize, ssplit");
+        Annotation document = pipeline.process(text);
+        List<CoreMap> maps = document.get(CoreAnnotations.SentencesAnnotation.class);
+        for (CoreMap sentence : maps) {
+            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                String word = token.get(CoreAnnotations.TextAnnotation.class).toLowerCase().trim();
+                if (word.length() == 1 && (word.charAt(0) > 'z') || word.charAt(0) < 'A') continue;
+                if (word.contains("-"))  {
+                    String[] sp = word.split("-");
+                    for (String s : sp) {
+                        buffer.append(s).append(" ");
+                    }
+                }
+                buffer.append(word).append(" ");
+            }
+        }
+        return buffer.toString();
+    }
+
+
     public static void test(String text) {
-        StanfordCoreNLP pipline = PreProcess.getAllPipline();
+        StanfordCoreNLP pipeline = PreProcess.getAllPipeline();
         Annotation document = new Annotation(text);
-        pipline.annotate(document);
+        pipeline.annotate(document);
         List<CoreMap> maps = document.get(CoreAnnotations.SentencesAnnotation.class);
         for (CoreMap sentence : maps) {
             Tree tree = sentence.get(TreeCoreAnnotations.TreeAnnotation.class);

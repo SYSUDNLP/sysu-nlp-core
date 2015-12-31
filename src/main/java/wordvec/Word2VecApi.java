@@ -23,7 +23,7 @@ public class Word2VecApi {
     private static final float FLOAT_NULL = -2;
 
     public static void main(String[] args) {
-        Word2VecApi api = Word2VecApi.getInstance("/Users/node/Downloads/trunk/vectors.bin");
+        Word2VecApi api = Word2VecApi.getInstance("/Users/yoosan/Desktop/data/vectors.bin");
         WordToVec toVec = api.getWordToVec();
         Set<WordToVec.WordEntry> entries = toVec.distance("hello");
         for (WordToVec.WordEntry e : entries) {
